@@ -12,6 +12,7 @@ class ImageResizer:
     min_height: int = 0
     max_width: int = None
     max_height: int = None
+    max_storage: int = None
 
     def run(self) -> None:
         img = Image.open(self.picpath)
@@ -22,6 +23,7 @@ class ImageResizer:
         img = self.expand_image(img)
         img = self.shrink_image(img)
         if self.crop_strategy != None:
+
             img = self.crop_strategy.crop(img)
 
         path = os.path.split(self.savepath)
@@ -29,10 +31,12 @@ class ImageResizer:
         if suffix.upper() == "JPG":
             suffix = "JPEG"
         img.save(self.savepath, quality=100, format=suffix)
+        if self.max_storage != None:
+            self.check_size()
 
     def expand_image(self, img: Image) -> Image:
         if img.width < self.min_width or img.height < self.min_height:
-            print("expand")
+            #print("expand")
             width, height = img.size
             while True:
                 width += 1
@@ -44,12 +48,26 @@ class ImageResizer:
 
     def shrink_image(self, img: Image) -> Image:
         if img.width > self.max_width or img.height > self.max_height:
-            print("shrink")
+            #print("shrink")
             width, height = img.size
             while True:
                 width -= 1
                 height = img.height * width // img.width
+                if self.crop_strategy != None:
+                    if width <= self.crop_strategy.size[0] or height <= self.crop_strategy.size[1]:
+                        break
                 if width <= self.max_width and height <= self.max_height:
                     break
             img = img.resize((width, height), Image.LANCZOS)
         return img
+
+    def check_size(self) -> None:
+        """ Checks the size of the file """
+        quality = 95
+        while os.stat(self.savepath).st_size > self.max_storage:
+            img = Image.open(self.savepath)
+            img.save(self.savepath, quality=quality)
+            quality -= 5
+            if quality <= 50:
+                print("Quality at 50%")
+                break
