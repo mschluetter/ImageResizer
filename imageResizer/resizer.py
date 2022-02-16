@@ -1,6 +1,7 @@
 from PIL import Image
 from dataclasses import dataclass
 from .cropstrategies import Crop
+import os
 
 @dataclass
 class ImageResizer:
@@ -22,7 +23,12 @@ class ImageResizer:
         img = self.shrink_image(img)
         if self.crop_strategy != None:
             img = self.crop_strategy.crop(img)
-        img.save(self.savepath, quality=95)
+
+        path = os.path.split(self.savepath)
+        suffix = path[1].split(".")[1]
+        if suffix.upper() == "JPG":
+            suffix = "JPEG"
+        img.save(self.savepath, quality=100, format=suffix)
 
     def expand_image(self, img: Image) -> Image:
         if img.width < self.min_width or img.height < self.min_height:
