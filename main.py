@@ -1,12 +1,13 @@
 import os
 from imageresizer import ImageResizer
-from imageresizer.cropstrategies import cropMiddleCenter
+from imageresizer.cropstrategies import cropMiddleCenter, cropTopCenter
 
 def main() -> None:
     imgpath = os.path.join("examples", "example.jpg")
-    safepath = os.path.join("examples", "output.jpg")
+    safepath = os.path.join("examples", "output4.jpg")
+    crop = cropTopCenter((700, 400))
 
-    resizer = ImageResizer(imgpath, safepath, max_storage=100000)
+    resizer = ImageResizer(imgpath, safepath, crop, max_width=700, max_height=400)
     resizer.run()
 
 if __name__ == "__main__":

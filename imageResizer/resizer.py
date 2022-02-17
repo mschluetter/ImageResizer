@@ -12,7 +12,6 @@ class ImageResizer:
     min_height: int = 0
     max_width: int = None
     max_height: int = None
-    max_storage: int = None
 
     def run(self) -> None:
         img = Image.open(self.picpath)
@@ -30,9 +29,7 @@ class ImageResizer:
         suffix = path[1].split(".")[1]
         if suffix.upper() == "JPG":
             suffix = "JPEG"
-        img.save(self.savepath, quality=100, format=suffix)
-        if self.max_storage != None:
-            self.check_size()
+        img.save(self.savepath, quality=95, format=suffix, subsampling=0)
 
     def expand_image(self, img: Image) -> Image:
         if img.width < self.min_width or img.height < self.min_height:
@@ -60,14 +57,3 @@ class ImageResizer:
                     break
             img = img.resize((width, height), Image.LANCZOS)
         return img
-
-    def check_size(self) -> None:
-        """ Checks the size of the file """
-        quality = 95
-        while os.stat(self.savepath).st_size > self.max_storage:
-            img = Image.open(self.savepath)
-            img.save(self.savepath, quality=quality)
-            quality -= 5
-            if quality <= 50:
-                print("Quality at 50%")
-                break
