@@ -1,5 +1,5 @@
 # Image resizer
-This is a generic image resizer. You can use it to shrink or expand images to maximum sizes. By choosing a crop strtategy you can cut the image on an exact pixel size.
+This is a generic image resizer. You can use it to shrink or expand images to maximum sizes. By choosing a crop strtategy you can cut the image on an exact pixel size. It uses the pillow lirbary for the image working.
 # Installation
 The usage requires the pillow lirbary. You can install it with pip:
 ```
@@ -116,5 +116,19 @@ resizer = ImageResizer(imgpath, safepath, crop, max_width=700, max_height=400)
 resizer.run()
 ```
 Now the output is better because the clouds are on it completly.<br />
+
 <img src="examples/output4.jpg" width="70%" /><br />
-HIER WEITER MACHEN!
+
+## Custom strategy
+If you know exacly where you want to start you can choose the cropCustom strategy. You also need to pass the size at first and seccond the x and y positions (x is horizontal, y vertical, zero is top left) also as a tuple.
+
+```python
+imgpath = os.path.join("examples", "example.jpg")
+safepath = os.path.join("examples", "output5.jpg")
+
+crop = cropCustom((400,400), (250,250))
+
+resizer = ImageResizer(imgpath, safepath, crop)
+resizer.run()
+```
+<img src="examples/output5.jpg" width="70%" />

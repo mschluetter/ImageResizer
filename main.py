@@ -1,6 +1,6 @@
 import os
 from imageresizer import ImageResizer
-from imageresizer.cropstrategies import cropMiddleCenter, cropTopCenter
+from imageresizer.cropstrategies import cropTopCenter
 
 def main() -> None:
     imgpath = os.path.join("examples", "example.jpg")
