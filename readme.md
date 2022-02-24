@@ -1,5 +1,5 @@
 # Image resizer
-This is a generic image resizer. You can use it to shrink or expand images to maximum sizes. By choosing a crop strtategy you can cut the image on an exact pixel size. It uses the pillow lirbary for the image working.
+This is a generic image resizer. You can use it to shrink or expand images to maximum sizes. By choosing a crop strategy you can cut the image on an exact pixel size. It uses the pillow lirbary for the image working.
 # Installation
 The usage requires the pillow lirbary. You can install it with pip:
 ```
@@ -31,7 +31,7 @@ ImageResizer(picpath: str,
 <ul>
     <li><strong>picpath</strong>: The path to the image. I recommend os.path.join() for that.</li>
     <li><strong>savepath</strong>: The path where the new image has to be saved. When you save the image you can provide a suffix of the common images from <a href="https://pillow.readthedocs.io/en/stable/handbook/image-file-formats.html?highlight=writer">Pillow Image file formats</a>. I recommend os.path.join() for the path.</li>
-    <li><strong>crop_strategy</strong>: Default in None. When you want to crop the image you choose the crop strategy and pass it here.</li>
+    <li><strong>crop_strategy</strong>: Default is None. When you want to crop the image you choose the crop strategy and pass it here.</li>
     <li><strong>min_width & min_height</strong>: Defaults are 0. If your image has a minimum size you can pass it here. Just pass the values you need. The image will expand with locked aspect ratio.</li>
     <li><strong>max_width & max_height</strong>: Defaults are set to the original image width and height when you leave it empty. This is the maximum width and height an image will have. You just need to pass the values you need. The image will be shrink with locked aspect ratio.</li>
 </ul>
@@ -51,7 +51,7 @@ safepath = os.path.join("examples", "output1.jpg")
 resizer = ImageResizer(imgpath, safepath, max_width=500, max_height=400)
 resizer.run()
 ```
-The images look quite the same but the size is now 500 * 333 because the aspect ratio is locked now. When you look at both images combined you see the difference.<br />
+The resized image looks quite the same but the size is now 500 * 333 because the aspect ratio is locked now. When you look at both images combined you see the difference.<br />
 <img src="examples/combined.jpg" width="70%" /><br />
 
 ## Crop an image
@@ -88,7 +88,7 @@ The result is the square image which is cropped in the middle center (the green 
 <img src="examples/output2.jpg" width="70%" /><br />
 
 ## Combining resizing and cropping
-Letz try to combine resizing and cropping. We want a 700 * 400 image but first we need to shrink the image as much as possible. You just need to equal the crop strategy size with the maximum width and height.
+Let's try to combine resizing and cropping. We want a 700 * 400 image but first we need to shrink the image as much as possible. You just need to equal the crop strategy size with the maximum width and height.
 ```python
 from imageresizer import ImageResizer
 from imageresizer.cropstrategies import cropMiddleCenter
